@@ -43,6 +43,25 @@ class ContactController {
 
     response.json(200, { message: 'Created with sucess' });
   }
+
+  async update(request, response) {
+    const { name, email, contact_id } = request.body;
+    const { id } = request.params;
+
+    const contactExists = await ContactRepository.findByEmail(email);
+
+    if (contactExists && contactExists.id !== id) {
+      return response.json(400, { error: 'E-mail already taken' });
+    }
+
+    const updatedContact = await ContactRepository.update(id, {
+      name,
+      email,
+      contact_id,
+    });
+
+    response.json(200, updatedContact);
+  }
 }
 
 module.exports = new ContactController();

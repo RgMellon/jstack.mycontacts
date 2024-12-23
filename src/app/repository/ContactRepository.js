@@ -45,6 +45,21 @@ class ContactRepository {
 
     return await awaitToResolve(emailFound);
   }
+
+  async update(id, { name, email, contact_id }) {
+    const updatedContact = {
+      id,
+      name,
+      email,
+      contact_id,
+    };
+
+    contacts = contacts.map((contact) =>
+      contact.id === id ? updatedContact : contact
+    );
+
+    return await awaitToResolve(updatedContact);
+  }
 }
 
 async function awaitToResolve(value) {
