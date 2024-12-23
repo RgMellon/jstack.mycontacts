@@ -33,6 +33,18 @@ class ContactRepository {
 
     return contacts;
   }
+
+  async create({ name, email, contact_id }) {
+    contacts = [...contacts, { name, email, contact_id }];
+
+    return contacts;
+  }
+
+  async findByEmail(email) {
+    const emailFound = contacts.find((contact) => contact.email === email);
+
+    return await awaitToResolve(emailFound);
+  }
 }
 
 async function awaitToResolve(value) {

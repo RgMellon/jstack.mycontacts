@@ -24,6 +24,25 @@ class ContactController {
     await ContactRepository.remove(id);
     response.json(201, { message: 'User removed' });
   }
+
+  async store(request, response) {
+    const { name, email, contact_id } = request.body;
+
+    const emailExist = await ContactRepository.findByEmail(email);
+
+    console.log(emailExist, 'email exist');
+    if (emailExist) {
+      return response.json(400, { error: 'E-mail already taken' });
+    }
+
+    await ContactRepository.create({
+      name,
+      email,
+      contact_id,
+    });
+
+    response.json(200, { message: 'Created with sucess' });
+  }
 }
 
 module.exports = new ContactController();
