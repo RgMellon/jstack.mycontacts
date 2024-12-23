@@ -1,10 +1,9 @@
 const express = require('express');
+const router = require('./router');
 
 const app = express();
 
-app.get('/', (reques, response) => {
-  response.send({ ok: true });
-});
+app.use(router);
 
 app.listen(3000, () => {
   console.log('Online');
