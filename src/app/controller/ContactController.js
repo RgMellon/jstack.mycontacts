@@ -2,7 +2,9 @@ const ContactRepository = require('../repository/ContactRepository');
 
 class ContactController {
   async index(request, response) {
-    const contacts = await ContactRepository.findAll();
+    const { orderBy } = request.query;
+
+    const contacts = await ContactRepository.findAll(orderBy);
     response.json(contacts);
   }
 
@@ -26,7 +28,7 @@ class ContactController {
   }
 
   async store(request, response) {
-    const { name, email, contact_id } = request.body;
+    const { name, email, phone, contact_id } = request.body;
 
     const emailExist = await ContactRepository.findByEmail(email);
 
@@ -35,17 +37,18 @@ class ContactController {
       return response.json(400, { error: 'E-mail already taken' });
     }
 
-    await ContactRepository.create({
+    const contact = await ContactRepository.create({
       name,
       email,
+      phone,
       contact_id,
     });
 
-    response.json(200, { message: 'Created with sucess' });
+    response.json(201, contact);
   }
 
   async update(request, response) {
-    const { name, email, contact_id } = request.body;
+    const { name, email, phone, category_id } = request.body;
     const { id } = request.params;
 
     const contactExists = await ContactRepository.findByEmail(email);
@@ -57,7 +60,8 @@ class ContactController {
     const updatedContact = await ContactRepository.update(id, {
       name,
       email,
-      contact_id,
+      phone,
+      category_id,
     });
 
     response.json(200, updatedContact);
