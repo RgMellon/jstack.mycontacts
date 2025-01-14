@@ -16,7 +16,7 @@ class CategoryController {
 
     const categories = await CategoryRepository.store(name);
 
-    response.json(200, categories);
+    response.json(2001, categories);
   }
 }
 
