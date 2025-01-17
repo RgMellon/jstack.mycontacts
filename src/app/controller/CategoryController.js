@@ -4,7 +4,7 @@ class CategoryController {
   async index(_, response) {
     const result = await CategoryRepository.findAll();
 
-    response.json(200, result);
+    response.status(200).json(result);
   }
 
   async create(request, response) {
@@ -16,7 +16,7 @@ class CategoryController {
 
     const categories = await CategoryRepository.store(name);
 
-    response.json(2001, categories);
+    response.status(201).json(categories);
   }
 }
 

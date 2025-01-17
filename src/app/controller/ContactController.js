@@ -14,8 +14,7 @@ class ContactController {
     const contact = await ContactRepository.findById(id);
 
     if (!contact) {
-      response.status(404).json({ error: 'Contact not found' });
-      return;
+      return response.status(404).json({ error: 'Contact not found' });
     }
 
     return response.json(contact);
@@ -30,7 +29,7 @@ class ContactController {
   }
 
   async store(request, response) {
-    const { name, email, phone, contact_id } = request.body;
+    const { name, email, phone, category_id } = request.body;
 
     if (!name) {
       return response.status(400).json({ error: 'Name is required' });
@@ -46,10 +45,10 @@ class ContactController {
       name,
       email,
       phone,
-      contact_id,
+      category_id,
     });
 
-    response.json(201, contact);
+    response.status(201).json(contact);
   }
 
   async update(request, response) {
